@@ -1,23 +1,21 @@
 class BinarySearch {
   result (target, array) {
     let startPos = Math.floor(array.length/2)
-    for (let i=0; i < array.length; i++) {
+    let movement = Math.floor(startPos/2)
+    let newStartPos = startPos + movement
+    
+    for (let i=0; i < Math.log2(array.length); i++) {
       if (array[startPos] < target) {
-        startPos = Math.floor(startPos + ((array.length - startPos)/2))
-        console.log(startPos)
+        newStartPos = Math.floor(startPos + movement)
       }
       if (array[startPos] > target) {
-        startPos = Math.floor(startPos/2)
-        console.log(startPos)
+        newStartPos = Math.floor(startPos - movement)
       }
-      console.log(startPos)
-      if (array[startPos] === target) var index = startPos
+      movement = Math.abs(Math.floor((startPos - newStartPos)/2))
+      startPos = newStartPos
+      if (array[startPos] === target) return startPos
     }
-    if (index) {
-      return index
-    } else {
-        return -1
-      }
+    return -1
   }
 }
-      module.exports = BinarySearch
+module.exports = BinarySearch
