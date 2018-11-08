@@ -19,7 +19,7 @@ class BinarySearchTwo {
   result (target,array) {
     let index = this.index(array)
     if (target === array[index]) return index
-    if (array.length == 1) return -1
+    if (array.length == 1 || array == []) return -1
     else return this.result(target,this.split(target,array))
   }
 }
