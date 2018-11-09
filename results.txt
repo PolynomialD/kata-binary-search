@@ -1,0 +1,81 @@
+
+> javascript-stub@0.0.0 test /home/poly/development/tdd/kata-binary-search
+> scripts/test-with-coverage.sh
+
+
+  BinarySearch If the integer is not in the array
+      ✓ should return -1 for 188 in array of length 158: 2ms
+      ✓ should return -1 for 436 in array of length 141: 0ms
+      ✓ should return -1 for 315 in array of length 42: 1ms
+      ✓ should return -1 for 140 in array of length 96: 0ms
+      ✓ should return -1 for 252 in array of length 53: 0ms
+
+  Suite duration: 0.009 s, Tests: 5
+
+  BinarySearch if the integer is in the array
+      ✓ should return 82 for 272 in array of length 154: 0ms
+      1) should return 117 for 499 in array of length 119
+      ✓ should return 18 for 283 in array of length 42: 0ms
+      ✓ should return 5 for 237 in array of length 13: 0ms
+      2) should return 9 for 135 in array of length 41
+
+  Suite duration: 0.009 s, Tests: 5
+
+  BinarySearchTwo If the integer is not in the array
+      ✓ should return -1 for 236 in array of length 4: 0ms
+      ✓ should return -1 for 323 in array of length 98: 0ms
+      ✓ should return -1 for 376 in array of length 7: 0ms
+      ✓ should return -1 for 227 in array of length 37: 0ms
+      ✓ should return -1 for 253 in array of length 123: 0ms
+
+  Suite duration: 0.002 s, Tests: 5
+
+  BinarySearchTwo if the integer is in the array
+      ✓ should return 9 for 30 in array of length 123: 0ms
+      ✓ should return 48 for 337 in array of length 67: 0ms
+      ✓ should return 3 for 22 in array of length 92: 0ms
+      ✓ should return 16 for 57 in array of length 120: 0ms
+      ✓ should return 152 for 472 in array of length 157: 0ms
+
+  Suite duration: 0.002 s, Tests: 5
+
+  18 passing (45ms)
+  2 failing
+
+  1) BinarySearch
+       if the integer is in the array
+         should return 117 for 499 in array of length 119:
+
+      AssertionError: expected -1 to deeply equal 117
+      + expected - actual
+
+      --1
+      +117
+      
+      at verify.it (test/BinarySearchSpec.js:82:69)
+      at Context.scenario (node_modules/verify-it/src/ScenarioBuilder.js:19:19)
+      at Context.<anonymous> (node_modules/verify-it/src/ScenarioBuilder.js:6:47)
+
+  2) BinarySearch
+       if the integer is in the array
+         should return 9 for 135 in array of length 41:
+
+      AssertionError: expected -1 to deeply equal 9
+      + expected - actual
+
+      --1
+      +9
+      
+      at verify.it (test/BinarySearchSpec.js:82:69)
+      at Context.scenario (node_modules/verify-it/src/ScenarioBuilder.js:19:19)
+      at Context.<anonymous> (node_modules/verify-it/src/ScenarioBuilder.js:6:47)
+
+
+
+--------------------|----------|----------|----------|----------|-------------------|
+File                |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+--------------------|----------|----------|----------|----------|-------------------|
+All files           |      100 |    92.86 |      100 |      100 |                   |
+ BinarySearch.js    |      100 |      100 |      100 |      100 |                   |
+ BinarySearchTwo.js |      100 |     87.5 |      100 |      100 |                11 |
+--------------------|----------|----------|----------|----------|-------------------|

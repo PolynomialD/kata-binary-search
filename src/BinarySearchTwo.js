@@ -2,14 +2,14 @@ class BinarySearchTwo {
 
   find (target,array,index,movement) {
     if (target === array[index]) return index
-    if (array.length <= 1) return -1
+    if (movement === 1) return -1
     if (target > array[index]) {
-      movement = Math.floor(movement/2)
+      movement = Math.round(movement/2)
       index += movement 
       return this.find(target,array,index,movement)
     }
     if (target < array[index]) {
-      movement = Math.floor(movement/2)
+      movement = Math.round(movement/2)
       index -= movement 
       return this.find(target,array,index,movement)
     }

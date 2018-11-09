@@ -42,10 +42,12 @@ const generateTestsWithValueInArray = () => {
   return generateSortedArrays().map((sortedArray) => {
     const randomIndex = Gen.integerBetween(0, sortedArray.length - 1)()
     const valueAtIndex = sortedArray[randomIndex]
-    return {
-      numberToFind: valueAtIndex,
-      numbers: sortedArray,
-      expectedResult: randomIndex
+    if (sortedArray.indexOf(valueAtIndex) === randomIndex) {
+      return {
+        numberToFind: valueAtIndex,
+        numbers: sortedArray,
+        expectedResult: randomIndex
+      }
     }
   })
 }
