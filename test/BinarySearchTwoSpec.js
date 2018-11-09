@@ -1,36 +1,84 @@
 const BinarySearchTwo = require('../src/BinarySearchTwo')
 const Gen = require('verify-it').Gen
 
+const NUMBER_OF_TESTS = 5
+const MIN_NUMBER = 1
+const MAX_NUMBER = 500
+const MIN_ARRAY_LENGTH = 1
+const MAX_ARRAY_LENGTH = 200
+
+const uniqify = (array) => {
+  var seen = {}
+  return array.filter(function(item) {
+      return seen.hasOwnProperty(item) ? false : (seen[item] = true)
+  })
+}
+
+const genNotInArray = (numberArray, i = 1) => {
+  const maxAttempts = 300
+  const attempt = Gen.integerBetween(MIN_NUMBER, MAX_NUMBER)()
+  if (i > maxAttempts) {
+    throw Error('Cannot find number that\'s not in the array')
+  } else if (numberArray.includes(attempt)) {
+    return genNotInArray(numberArray, ++i)
+  } else {
+    return attempt
+  }
+}
+
+const generateArray = () => {
+  return Gen.array(Gen.integerBetween(MIN_NUMBER, MAX_NUMBER), Gen.integerBetween(MIN_ARRAY_LENGTH, MAX_ARRAY_LENGTH)())()
+}
+
+const generateSortedArrays = () => {
+  const emptyArrays = Gen.array(Gen.integer, NUMBER_OF_TESTS)()
+  const numberArrays = emptyArrays.map(() => generateArray())
+  const sortedArrays = numberArrays.map((test) => test.sort((a, b) => a - b))
+  const uniqueArrays = sortedArrays.map((uniqueArray) => uniqify(uniqueArray))
+  return uniqueArrays
+}
+
+const generateTestsWithValueInArray = () => {
+  return generateSortedArrays().map((sortedArray) => {
+    const randomIndex = Gen.integerBetween(0, sortedArray.length - 1)()
+    const valueAtIndex = sortedArray[randomIndex]
+    return {
+      numberToFind: valueAtIndex,
+      numbers: sortedArray,
+      expectedResult: randomIndex
+    }
+  })
+}
+
+const generateTestsWithValueNotInArray = () => {
+  return generateSortedArrays().map((sortedArray) => {
+    const value = genNotInArray(sortedArray)
+    return {
+      numberToFind: value,
+      numbers: sortedArray,
+      expectedResult: -1
+    }
+  })
+}
+
 describe('BinarySearchTwo', () => {
-  verify.it('should return "-1" if integer is not found', () => {
-    const binarySearchTwo = new BinarySearchTwo()
-    binarySearchTwo.result(5,[]).should.eql(-1)
+  const binarySearchTwo = new BinarySearchTwo()
+
+  describe('If the integer is not in the array', () => {
+    const tests = generateTestsWithValueNotInArray()
+    tests.forEach((test) => {
+      verify.it(`should return -1 for ${test.numberToFind} in array of length ${test.numbers.length}`, () => {
+        binarySearchTwo.result(test.numberToFind, test.numbers).should.eql(test.expectedResult)
+      })
+    })
   })
-  verify.it('should return the correct index of target integer 5', () => {
-    const binarySearchTwo = new BinarySearchTwo()
-    binarySearchTwo.result(5,[1,5,7]).should.eql(1)
+
+  describe('if the integer is in the array', () => {
+    const tests = generateTestsWithValueInArray()
+    tests.forEach((test) => {
+      verify.it(`should return ${test.expectedResult} for ${test.numberToFind} in array of length ${test.numbers.length}`, () => {
+        binarySearchTwo.result(test.numberToFind, test.numbers).should.eql(test.expectedResult)
+      })
+    })
   })
-  verify.it('should return the correct index of target integer 9', () => {
-    const binarySearchTwo = new BinarySearchTwo()
-    binarySearchTwo.result(9,[1,2,3,4,5,6,7,8,9]).should.eql(8)
-  })
-  verify.it('should return the correct index of target integer 7', () => {
-    const binarySearchTwo = new BinarySearchTwo()
-    binarySearchTwo.result(7,[1,3,5,7,8,9,10,13,18,21,27,33,54,67]).should.eql(3)
-  })
-  verify.it('should return the correct index of target integer 93', () => {
-    const binarySearchTwo = new BinarySearchTwo()
-    binarySearchTwo.result(93,[3,9,22,34,42,54,66,70,75,81,85,88,90,91,92,93,97,101]).should.eql(15)
-  })
-  verify.it('should return the correct index of a random target integer', Gen.integerBetween(1,100), (number) => {
-    const binarySearchTwo = new BinarySearchTwo()
-    var array = []
-    for (var i = 1; i <= number; i++) {array.push(i)}
-    let randomN = Math.floor(Math.random() * 100)
-    console.log('target:', randomN)
-    console.log('array size:', array.length)
-    let index = array.indexOf(randomN)
-    binarySearchTwo.result(randomN,array).should.eql(index)
-  })
-  
 })
